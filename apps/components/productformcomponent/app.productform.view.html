@@ -1,0 +1,122 @@
+
+    <div class="container" [hidden]= "!isSave" > 
+      <form name="frmProduct" [formGroup]="frmProduct" (submit)="save()">
+      <div class="form-group">
+        <label for="ProdId"> Product ID</label>
+        <input type="text" name="productId" class="form-control"  formControlName="ProdId"  />
+        <div
+        *ngIf="
+          frmProduct.controls.ProdId.dirty &&
+          !frmProduct.controls.ProdId.valid
+        "
+        class="alert alert-danger"
+      >
+        <p *ngIf="frmProduct.controls.ProdId.errors.required">
+          Product Id is Must
+        </p>
+        <p *ngIf="frmProduct.controls.ProdId.errors.pattern">
+          Product Id Must be numeric
+        </p>
+        <p *ngIf="frmProduct.controls.ProdId.errors.minlength">
+          Product Id Must be min 2 digits in length
+        </p>
+        <p *ngIf="frmProduct.controls.ProdId.errors.maxlength">
+          Product Id Must be max 5 digits in length
+        </p>
+        <p *ngIf="frmProduct.controls.ProdId.errors.invalid">
+          Product Id Must be Unique
+        </p>
+      </div>
+      </div>
+      <div class="form-group">
+        <label for="ProdName"> Product Name</label>
+        <input type="text" name="productName" class="form-control"  formControlName="ProdName"  required/>
+        <div
+        *ngIf="
+          frmProduct.controls.ProdName.dirty &&
+          !frmProduct.controls.ProdName.valid
+        "
+        class="alert alert-danger"
+      >
+        <p *ngIf="frmProduct.controls.ProdName.errors.invalid">
+          Product Name must start with Uppercase
+        </p>
+        <p *ngIf="frmProduct.controls.ProdName.errors.required">
+          Product Name is required
+        </p> 
+        <p *ngIf="frmProduct.controls.ProdName.errors.pattern">
+          Product Name must not have numeric value
+        </p> 
+        <p *ngIf="frmProduct.controls.ProdName.errors.spaces">
+          Product Name must not have more than 2 spaces
+       </p>
+        
+      </div>
+      </div>
+      <div class="form-group">
+        <label for="Price"> Price </label>
+        <input type="number" name="price" class="form-control"  formControlName="Price" />
+        <div
+        *ngIf="
+          frmProduct.controls.Price.dirty && !frmProduct.controls.Price.valid
+        "
+        class="alert alert-danger">
+        <p *ngIf="frmProduct.controls.Price.invalid">Price Must be positive</p>
+      </div>
+      </div>
+      <div class="form-group">
+            <label for="CategoryName"> Category </label>
+            <select class="form-control" name="category"  formControlName="CategoryName">
+              <option value="" selected disabled hidden>Choose here</option>
+              <option *ngFor="let c of categories" value="{{c}}">{{c}}</option>
+             
+            </select>
+            <div
+            *ngIf="
+              frmProduct.controls.CategoryName.touched &&
+              !frmProduct.controls.CategoryName.valid
+            "
+            class="alert alert-danger"
+          >
+            <p>
+              Category requried
+            </p>
+
+          </div>
+          </div>
+      <div class="form-group">
+            <input type="button" class="btn btn-default" value="New"  (click)="clear()" />
+            <input type="submit" class="btn btn-success" value="Save" [disabled]="!frmProduct.valid"/>
+      </div>
+    </form>
+    </div>
+    
+      <div class="container" [hidden]= "isSave">
+          <table class="table table-bordered table-striped"> 
+              <thead>
+                  <tr>
+                    <td><input type="checkbox" value="checkBoxHeaders" [(ngModel)]="isChecked" (change)= "doAllChecks()" ></td>
+                      <td *ngFor="let c of tableHeaders">{{c}}</td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let p of products" (click)="getSelectedRow(p)">
+                      <td>
+                          <input type="checkbox" [(checked)]="p.check" (change)="getChecked(p)"></td>
+
+                    <td  *ngFor="let c of tableHeaders">  {{p[c] }} </td>
+                  </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4">
+                    <input type="button" value="Load Form" (click)="loadForm()" class="btn btn-warning">
+                    <input type="button" value="Delete" (click)="deleteSelected()" class="btn btn-danger">
+                  </td>
+                </tr>
+              </tfoot>
+         </table>
+      </div>
+     
+    
+
